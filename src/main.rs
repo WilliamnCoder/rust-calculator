@@ -1,20 +1,46 @@
-use std::io;
+use std::{io, result};
 fn main() {
     println!("Welcome to the Calculator App written in Rust!");
-    println!("Enter expression (two numbers, one per line): ");
+    
     // declare mutable string input
     let mut number1 = String::new();
     let mut number2 = String::new();
+    let mut op =String::new();
 
-    // reading lines from io:stdin
-    io::stdin().read_line(&mut number1).unwrap();
+
+    println!("Enter a number: ");
+    io::stdin().read_line(&mut number1).unwrap(); // reading lines from io:stdin
+
+    println!("Enter a second number: ");
     io::stdin().read_line(&mut number2).unwrap();
+    
+    println!("Choose an operator from the list (type in the operator): ");
+    println!("+ Addition");
+    println!("- Subtraction");
+    println!("* Multiplication");
+    println!("/ Division");
+    io::stdin().read_line(&mut op).expect("Input is invalid");
 
-    //parse variables into f64
-    let number1: f64 = number1.trim().parse().unwrap();
-    let number2: f64 = number2.trim().parse().unwrap();
 
-    //print variables
-    println!("{}", number1);
-    println!("{}", number2); 
-}
+    //convert strings to f64 and char
+    let number1: f64 = number1.trim().parse().unwrap(); // parse variables into f64
+    let number2: f64 = number2.trim().parse().unwrap(); 
+    let op: char = op.trim().chars().next().unwrap();
+
+    let result = calculate(number1, number2, op);
+    println!("Result: {}", result);
+
+    }
+
+    fn calculate(number1: f64, number2: f64, op: char) -> f64 {
+    match op {
+        '+' => number1 + number2,
+        '-' => number1 - number2,
+        '*' => number1 * number2,
+        '/' => number1 / number2,
+        _ => {
+            println!("Error: unknown operator");
+            0.0
+            }
+        }   
+    }
